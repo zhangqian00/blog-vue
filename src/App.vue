@@ -1,12 +1,31 @@
 <template>
 	<div id="app">
+		<headerNav v-if='headerNavFlag'></headerNav>
 		<router-view/>
 	</div>
 </template>
 
 <script>
+	import headerNav from '@/components/public/header.vue'; // 头部导航
 	export default {
 		name: 'App',
+		data(){
+			return {
+				headerNavFlag: false // 头部导航是否显示
+			}
+		},
+		components: {
+			headerNav,
+		},
+		watch: {
+			$route(val){
+				if(val.path === '/home' || val.path==='/'){
+					this.headerNavFlag = false;
+				}else {
+					this.headerNavFlag = true;
+				}
+			}
+		},
 		mounted(){
 			window.addEventListener('hashchange',()=>{
 				let currentPath = window.location.hash.slice(1);

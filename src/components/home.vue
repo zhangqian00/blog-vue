@@ -8,7 +8,7 @@
 				</router-link>
 			</div>
 			<div class="btm">
-				<router-link to='/home'>tab1</router-link>
+				<router-link to='/blogs'>博客</router-link>
 				<router-link to='/home'>tab2</router-link>
 				<router-link to='/home'>tab3</router-link>
 			</div>
@@ -25,7 +25,7 @@
 			}
 		},
 		mounted(){
-			Canvans.luohuaCanvans(); // 落花特效
+			// Canvans.luohuaCanvans(); // 落花特效
 		}
 	}
 </script>

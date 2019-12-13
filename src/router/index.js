@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-const home = () => import ('@/components/home.vue');
+const home = () => import ('@/components/home.vue'); // 首页
+const blogs = () => import('@/components/blogs/blogs.vue'); // 博客页
 
 Vue.use(Router);
 
@@ -11,5 +12,9 @@ export default new Router({
 		path: '/home',
 		name: 'home',
 		component: home
+	},{
+		path: '/blogs',
+		name: 'blogs',
+		component: blogs
 	}]
 })
