@@ -3,8 +3,8 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import {Menu,MenuItem} from 'element-ui';
-Vue.use(Menu).use(MenuItem);
+import {Menu,MenuItem,Row,Col,Button,Tag,Backtop} from 'element-ui';
+Vue.use(Menu).use(MenuItem).use(Row).use(Col).use(Button).use(Tag).use(Backtop);
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;

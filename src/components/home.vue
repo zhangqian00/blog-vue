@@ -12,6 +12,7 @@
 				<router-link to='/home'>tab2</router-link>
 				<router-link to='/home'>tab3</router-link>
 			</div>
+			<div class="sign">人生苦短，何妨一试</div>
 		</div>
 	</div>
 </template>
@@ -25,7 +26,7 @@
 			}
 		},
 		mounted(){
-			// Canvans.luohuaCanvans(); // 落花特效
+			Canvans.luohuaCanvans(); // 落花特效
 		}
 	}
 </script>
@@ -69,6 +70,12 @@
 				a:hover {
 					color: #ff8003;
 				}
+			}
+			.sign {
+				padding: 30px 0 0;
+				font-size: 20px;
+				text-align: center;
+				color: #fff;
 			}
 		}
 	}
