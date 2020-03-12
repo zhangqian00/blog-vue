@@ -2,22 +2,28 @@
 	<div id="blogs">
 		<div class="left">
 			<ul class="list">
-				<li v-for ='(item,index) in 20' :key='index'>
+				<li v-for ='(item,index) in blogData' :key='index'>
 					<div class="leftItem">
-						<h3 class='title'>标题标题标题标题标题标题标题</h3>
-						<p class="abstract">摘要摘要摘要摘要摘要摘要摘要摘要</p>
+						<h3 class='title'>{{item.title}}</h3>
+						<p class="abstract">{{item.describe}}</p>
 						<div class="meta">
-							<span>查看 999</span>
-							<span>评论 999</span>
-							<span>赞 999</span>
-							<span>2019-12-01 12:06:30</span>
+							<span>查看 0</span>
+							<span>评论 0</span>
+							<span>赞 0</span>
+							<span>{{item.createdate|dateFormat}}</span>
 						</div>
 					</div>
 					<div class="rightItem">
-						<img src="@/assets/img/home/tx.jpg" alt="">
+						<img :src="item.coversrc?item.coversrc:fmSrc" alt="">
 					</div>
 				</li>
 			</ul>
+			<el-pagination
+			    background
+			    @current-change='getBlogList'
+			    layout="prev,pager,next,total"
+			    :total="blogTotal">
+			</el-pagination>
 		</div>
 		<div class="right">
 			<div class="item">
@@ -42,7 +48,26 @@
 	export default {
 		data(){
 			return {
-
+				blogData: [], // 博客列表
+				blogTotal: 0, // 博客总数
+				fmSrc: require('@/assets/img/home/tx.jpg'), // 默认封面
+			}
+		},
+		created(){
+			this.getBlogList(1);
+		},
+		methods: {
+			getBlogList(page){ // 获取文章列表
+				var params = {
+					pagesize: 10,
+					pageindex: page
+				};
+				this.$ajax.post(this.$httpConfig.blogList,params).then((res)=>{
+					if(res.data.ErrorCode.Code == 0){
+						this.blogData = res.data.DataContext.result||[];
+						this.blogTotal = res.data.DataContext.total||0;
+					}
+				});
 			}
 		}
 	}
@@ -93,8 +118,8 @@
 						justify-content: flex-end;
 						align-items: center;
 						img {
-							width: 125px;
-							height: 100px;
+							max-width: 150px;
+							max-height: 100px;
 						}
 					}
 				}
@@ -159,5 +184,12 @@
 			transform: rotate(0deg) scale(0.8,0.8);
 			opacity: 1;
 		}
+	}
+</style>
+
+<style>
+	#blogs .el-pagination {
+		text-align: center;
+		margin: 40px;
 	}
 </style>
