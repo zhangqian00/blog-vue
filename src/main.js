@@ -6,8 +6,8 @@ import router from './router';
 import Qs from 'qs';
 import Axios from 'axios';
 import Moment from 'moment';
-import {Menu,MenuItem,Row,Col,Button,Tag,Backtop,Pagination} from 'element-ui';
-Vue.use(Menu).use(MenuItem).use(Row).use(Col).use(Button).use(Tag).use(Backtop).use(Pagination);
+import {Menu,MenuItem,Row,Col,Button,Tag,Backtop,Pagination,Loading} from 'element-ui';
+Vue.use(Menu).use(MenuItem).use(Row).use(Col).use(Button).use(Tag).use(Backtop).use(Pagination).use(Loading);
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;

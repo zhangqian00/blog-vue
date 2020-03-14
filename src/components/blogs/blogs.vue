@@ -1,8 +1,8 @@
 <template>
 	<div id="blogs">
 		<div class="left">
-			<ul class="list">
-				<li v-for ='(item,index) in blogData' :key='index'>
+			<ul class="list" v-loading="loading">
+				<li v-for ='(item,index) in blogData' :key='index' @click='linkDetail(item)'>
 					<div class="leftItem">
 						<h3 class='title'>{{item.title}}</h3>
 						<p class="abstract">{{item.describe}}</p>
@@ -17,11 +17,14 @@
 						<img :src="item.coversrc?item.coversrc:fmSrc" alt="">
 					</div>
 				</li>
+				<div class="zanwu" v-if='!blogTotal'>暂无数据</div>
 			</ul>
 			<el-pagination
+				v-if='blogTotal>0'
 			    background
 			    @current-change='getBlogList'
 			    layout="prev,pager,next,total"
+			    :page-size='5'
 			    :total="blogTotal">
 			</el-pagination>
 		</div>
@@ -48,6 +51,7 @@
 	export default {
 		data(){
 			return {
+				loading: false,
 				blogData: [], // 博客列表
 				blogTotal: 0, // 博客总数
 				fmSrc: require('@/assets/img/home/tx.jpg'), // 默认封面
@@ -58,16 +62,24 @@
 		},
 		methods: {
 			getBlogList(page){ // 获取文章列表
+				this.loading = true;
 				var params = {
-					pagesize: 10,
+					pagesize: 5,
 					pageindex: page
 				};
 				this.$ajax.post(this.$httpConfig.blogList,params).then((res)=>{
 					if(res.data.ErrorCode.Code == 0){
 						this.blogData = res.data.DataContext.result||[];
 						this.blogTotal = res.data.DataContext.total||0;
+						this.loading = false;
+					}else {
+						this.loading = false;
+						this.$message.error(res.data.ErrorCode.Message);
 					}
-				});
+				}).catch((err)=>{this.loading = false;;this.$message.error(err);});
+			},
+			linkDetail(item){ // 跳转博客详情
+				this.$router.push({path:'/blogDetail',query:{blogId:item.id}});
 			}
 		}
 	}
@@ -122,6 +134,13 @@
 							max-height: 100px;
 						}
 					}
+				}
+				.zanwu {
+					height: 200px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					color: #aaa;
 				}
 			}
 		}
