@@ -2,20 +2,20 @@
 	<div id="blogDetail" class="clearfix">
 		<div class="left fl">
 			<div class="top">
-				<h3 class="title">文章标题文章标题文章标题文章标题文章标题</h3>
+				<h3 class="title">{{detailData.title}}</h3>
 				<div class="info">
 					<div class="touxiang">
 						<img src="../../../assets/img/home/tx.jpg" alt="">
 					</div>
 					<div class="author">
-						<p class="name">zhangqian00</p>
-						<p class="meta"><i>2020-02-02</i><i>字数 0</i><i>阅读 0</i><i>评论 0</i><i>喜欢 0</i></p>
+						<p class="name">{{detailData.author}}</p>
+						<p class="meta"><i>{{detailData.createdate|timeFormat}}</i><i>字数 0</i><i>阅读 0</i><i>评论 0</i><i>喜欢 0</i></p>
 					</div>
-					<el-tag size="mini" type="success">标签二</el-tag>
+					<div class="tagDiv">
+						<el-tag size="mini" type="success" v-for='(item,index) in detailData.blogtags' :key='index'>{{item}}</el-tag>
+					</div>
 				</div>
-				<div class="content">
-					<p v-for='item in 50'>asdasdasdas</p>
-				</div>
+				<div class="content markdown-body" v-html='detailData.content'></div>
 			</div>
 
 		</div>
@@ -30,10 +30,30 @@
 </template>
 
 <script>
+	import SimpleMDE from 'simplemde';
 	export default {
 		data(){
 			return {
-
+				detailData: {}
+			}
+		},
+		mounted(){
+			this.getDetail();
+		},
+		methods: {
+			getDetail(){
+				let params = {
+					keyid: this.$route.query.blogId
+				};
+				this.$ajax.post(this.$httpConfig.blogDetail,params).then((res)=>{
+					if(res.data.ErrorCode.Code == 0){
+						this.detailData = res.data.DataContext||{};
+						this.detailData.blogtags?
+						this.detailData.blogtags = this.detailData.blogtags.split(','):
+						[];
+						this.detailData.content = SimpleMDE.prototype.markdown(this.detailData.content);
+					}
+				});
 			}
 		}
 	}
@@ -84,7 +104,7 @@
 						}
 					}
 				}
-				.el-tag {
+				.tagDiv {
 					position: absolute;
 					right: 0;
 					top: 50%;
@@ -111,5 +131,11 @@
 		.tocLink:hover {
 			color: #ff8003;
 		}
+	}
+</style>
+
+<style>
+	.content p {
+		line-height: 30px;
 	}
 </style>

@@ -11,8 +11,8 @@ Vue.use(Menu).use(MenuItem).use(Row).use(Col).use(Button).use(Tag).use(Backtop).
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
-import httpConfig from './assets/api/api.js';
-Vue.prototype.$httpConfig = httpConfig;
+// import httpConfig from './assets/api/api.js';
+Vue.prototype.$httpConfig = window.httpConfig;
 
 Vue.prototype.$ajax = Axios;
 Vue.prototype.$moment = Moment;
